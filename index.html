@@ -93,7 +93,7 @@
         <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Pro Calc Pro</span>
       </div>
       <span class="text-[10px] font-semibold uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-full flex items-center gap-1.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Dynamic ABA
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> KHQR Ready
       </span>
     </div>
 
@@ -180,10 +180,10 @@
       <div class="bg-slate-950/80 rounded-2xl p-3 border border-white/10 mb-3 text-center relative overflow-hidden">
         <div class="scan-line"></div>
         <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-qrcode text-indigo-400"></i> Scan to Pay via ABA KHQR
+          <i class="fa-solid fa-qrcode text-indigo-400"></i> Scan via Any Mobile Bank (KHQR)
         </p>
         <div class="w-36 h-36 mx-auto rounded-xl bg-white p-2 shadow-inner mb-2 flex items-center justify-center">
-          <img src="aba-qr.jpg" alt="ABA KHQR Code" class="w-full h-full object-contain">
+          <img src="aba-qr.jpg" alt="KHQR Code" class="w-full h-full object-contain">
         </div>
         
         <!-- Pay via ABA Mobile Button -->
@@ -196,9 +196,16 @@
       </div>
 
       <!-- Transaction ID Input / Verification -->
-      <div class="mb-4 text-left">
+      <div class="mb-3 text-left">
         <label class="block text-[11px] font-medium text-slate-400 mb-1">ABA Transaction ID / Hash:</label>
         <input type="text" id="tx-hash-input" placeholder="Enter Transaction ID..." class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors">
+      </div>
+
+      <!-- Quick Test Bypass Button (សម្រាប់តេស្តលឿនមិនបាច់វាយលេខ) -->
+      <div class="mb-4">
+        <button onclick="bypassForTesting()" class="w-full bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 border border-emerald-500/30 font-semibold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-bolt"></i> ⚡ [Test Mode] Unlock ភ្លាមៗ (សម្រាប់តេស្ត)
+        </button>
       </div>
 
       <!-- Action Buttons -->
@@ -234,7 +241,6 @@
   </div>
 
   <script>
-    // Global Functions & Variables
     let currentInput = '0';
     let previousInput = '';
     let operator = null;
@@ -249,7 +255,7 @@
       if (isMobile) {
         window.location.href = "abamobilebank://";
       } else {
-        alert("សូមប្រើប្រាស់ទូរស័ព្ទដៃដើម្បីបើកកម្មវិធី ABA Mobile App ដោយផ្ទាល់ ឬស្កែន QR Code ខាងលើ!");
+        alert("សូមប្រើប្រាស់ទូរស័ព្ទដៃដើម្បីបើកកម្មវិធី ABA Mobile App ឬស្កែន QR Code ខាងលើ!");
       }
     }
 
@@ -357,19 +363,24 @@
       document.getElementById('paywall-modal').classList.remove('flex');
     }
 
+    function bypassForTesting() {
+      document.getElementById('tx-hash-input').value = "TEST-MODE-" + Math.floor(Math.random() * 900000 + 100000);
+      verifyPayment();
+    }
+
     function verifyPayment() {
       const txInput = document.getElementById('tx-hash-input').value.trim();
       
       if (!txInput) {
-        alert("សូមបញ្ចូល Transaction ID / Hash ដើម្បផ្ទៀងផ្ទាត់ការបង់ប្រាក់!");
+        alert("សូមបញ្ចូល Transaction ID ឬចុចប៊ូតុង Test Mode ខាងក្រោម!");
         return;
       }
 
       closePaywall();
 
       confetti({
-        particleCount: 80,
-        spread: 60,
+        particleCount: 90,
+        spread: 70,
         origin: { y: 0.6 }
       });
 
